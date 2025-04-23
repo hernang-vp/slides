@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hero</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+  <div class="seccion" id="seccion-1">
+    <button id="btnFullscreen">
+      <img id="imgFullscreen" src="assets/on.svg" alt="Pantalla completa" width="40">
+    </button>
+
+    <spam class="link" onclick="window.location.href='#seccion-2'">A</spam>
+
+    <div class="link cuadro" onclick="window.location.href='#seccion-2'">1</div>
+    <!-- <spam> es para no usar la etiqueta <a> y que así no se vea el link en la esquina inferior izquierda -->
+  </div>
+
+  <div class="seccion" id="seccion-2">
+    <spam class="link" onclick="window.location.href='#seccion-3'">B</spam>
+  </div>
+
+  <div class="seccion" id="seccion-3">
+    <spam class="link" onclick="window.location.href='#seccion-4'">C</spam>
+  </div>
+
+  <div class="seccion" id="seccion-4">
+    <spam class="link" onclick="window.location.href='#seccion-5'">D</spam>
+  </div>
+
+  <div class="seccion" id="seccion-5">
+    <spam class="link" onclick="window.location.href='#seccion-1'">E</spam>
+  </div>
+
+  <script>
+    const secciones = document.querySelectorAll(".seccion");
+    let index = 0;
+    let bloqueado = false;
+
+    function irASeccion(nuevoIndex) {
+      if (bloqueado || nuevoIndex < 0 || nuevoIndex >= secciones.length) return;
+
+      bloqueado = true;
+      index = nuevoIndex;
+      secciones[index].scrollIntoView({ behavior: "smooth" });
+
+      setTimeout(() => bloqueado = false, 800); // evitar scroll múltiple accidental
+    }
+
+    // --- Teclado ---
+    window.addEventListener("keydown", function (e) {
+      if (e.code === "Space" || e.code === "ArrowDown" || e.code === "ArrowRight") {
+        e.preventDefault();
+        irASeccion(index + 1);
+      } else if (e.code === "ArrowUp" || e.code === "ArrowLeft") {
+        e.preventDefault();
+        irASeccion(index - 1);
+      }
+    });
+
+    // --- Swipe táctil ---
+    let startX = 0, startY = 0;
+
+    window.addEventListener("touchstart", e => {
+      startX = e.touches[0].clientX;
+      startY = e.touches[0].clientY;
+    });
+
+    window.addEventListener("touchend", e => {
+      const endX = e.changedTouches[0].clientX;
+      const endY = e.changedTouches[0].clientY;
+      const diffX = endX - startX;
+      const diffY = endY - startY;
+
+      if (Math.abs(diffY) > Math.abs(diffX)) {
+        if (diffY < -30) irASeccion(index + 1); // swipe arriba
+        else if (diffY > 30) irASeccion(index - 1); // swipe abajo
+      } else {
+        if (diffX < -30) irASeccion(index + 1); // swipe izq
+        else if (diffX > 30) irASeccion(index - 1); // swipe der
+      }
+    });
+
+    // --- Scroll con mouse ---
+    window.addEventListener("wheel", (e) => {
+      if (bloqueado) return;
+
+      if (e.deltaY > 30) {
+        irASeccion(index + 1); // scroll hacia abajo
+      } else if (e.deltaY < -30) {
+        irASeccion(index - 1); // scroll hacia arriba
+      }
+    }, { passive: true });
+
+
+    // PANTALLA COMPLETA
+    const btn = document.getElementById("btnFullscreen");
+  const img = document.getElementById("imgFullscreen");
+
+  function toggleFullscreen() {
+    if (!document.fullscreenElement && !document.webkitFullscreenElement) {
+      entrarPantallaCompleta();
+    } else {
+      salirPantallaCompleta();
+    }
+  }
+
+  function entrarPantallaCompleta() {
+    const docEl = document.documentElement;
+    if (docEl.requestFullscreen) {
+      docEl.requestFullscreen();
+    } else if (docEl.webkitRequestFullscreen) {
+      docEl.webkitRequestFullscreen();
+    } else if (docEl.msRequestFullscreen) {
+      docEl.msRequestFullscreen();
+    }
+  }
+
+  function salirPantallaCompleta() {
+    if (document.exitFullscreen) {
+      document.exitFullscreen();
+    } else if (document.webkitExitFullscreen) {
+      document.webkitExitFullscreen();
+    } else if (document.msExitFullscreen) {
+      document.msExitFullscreen();
+    }
+  }
+
+  // Cambiar la imagen según el estado
+  function actualizarImagen() {
+    const enPantallaCompleta = document.fullscreenElement || document.webkitFullscreenElement;
+    img.src = enPantallaCompleta ? "assets/off.svg" : "assets/on.svg";
+  }
+
+  // Detectar cambio de modo fullscreen
+  document.addEventListener("fullscreenchange", actualizarImagen);
+  document.addEventListener("webkitfullscreenchange", actualizarImagen);
+
+  // Acción del botón
+  btn.addEventListener("click", toggleFullscreen);
+  </script>
+
+</body>
+
+</html>
