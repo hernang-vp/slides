@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Hero</title>
+  <title>SLIDES</title>
   <link rel="stylesheet" href="style.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -17,26 +17,27 @@
       <img id="imgFullscreen" src="assets/on.svg" alt="Pantalla completa" width="40">
     </button>
 
-    <spam class="link" onclick="window.location.href='#seccion-2'">A</spam>
+    <!-- CAMBIO: onclick modificado para usar irASeccion(1) -->
+    <span class="link" onclick="irASeccion(1)">A</span>
 
-    <div class="link cuadro" onclick="window.location.href='#seccion-2'">1</div>
-    <!-- <spam> es para no usar la etiqueta <a> y que así no se vea el link en la esquina inferior izquierda -->
+    <!-- CAMBIO: onclick modificado para usar irASeccion(1) -->
+    <div class="link cuadro" onclick="irASeccion(1)">1</div>
   </div>
 
   <div class="seccion" id="seccion-2">
-    <spam class="link" onclick="window.location.href='#seccion-3'">B</spam>
+    <span class="link" onclick="irASeccion(2)">B</span>
   </div>
 
   <div class="seccion" id="seccion-3">
-    <spam class="link" onclick="window.location.href='#seccion-4'">C</spam>
+    <span class="link" onclick="irASeccion(3)">C</span>
   </div>
 
   <div class="seccion" id="seccion-4">
-    <spam class="link" onclick="window.location.href='#seccion-5'">D</spam>
+    <span class="link" onclick="irASeccion(4)">D</span>
   </div>
 
   <div class="seccion" id="seccion-5">
-    <spam class="link" onclick="window.location.href='#seccion-1'">E</spam>
+    <span class="link" onclick="irASeccion(0)">E</span>
   </div>
 
   <script>
@@ -99,54 +100,52 @@
       }
     }, { passive: true });
 
-
     // PANTALLA COMPLETA
     const btn = document.getElementById("btnFullscreen");
-  const img = document.getElementById("imgFullscreen");
+    const img = document.getElementById("imgFullscreen");
 
-  function toggleFullscreen() {
-    if (!document.fullscreenElement && !document.webkitFullscreenElement) {
-      entrarPantallaCompleta();
-    } else {
-      salirPantallaCompleta();
+    function toggleFullscreen() {
+      if (!document.fullscreenElement && !document.webkitFullscreenElement) {
+        entrarPantallaCompleta();
+      } else {
+        salirPantallaCompleta();
+      }
     }
-  }
 
-  function entrarPantallaCompleta() {
-    const docEl = document.documentElement;
-    if (docEl.requestFullscreen) {
-      docEl.requestFullscreen();
-    } else if (docEl.webkitRequestFullscreen) {
-      docEl.webkitRequestFullscreen();
-    } else if (docEl.msRequestFullscreen) {
-      docEl.msRequestFullscreen();
+    function entrarPantallaCompleta() {
+      const docEl = document.documentElement;
+      if (docEl.requestFullscreen) {
+        docEl.requestFullscreen();
+      } else if (docEl.webkitRequestFullscreen) {
+        docEl.webkitRequestFullscreen();
+      } else if (docEl.msRequestFullscreen) {
+        docEl.msRequestFullscreen();
+      }
     }
-  }
 
-  function salirPantallaCompleta() {
-    if (document.exitFullscreen) {
-      document.exitFullscreen();
-    } else if (document.webkitExitFullscreen) {
-      document.webkitExitFullscreen();
-    } else if (document.msExitFullscreen) {
-      document.msExitFullscreen();
+    function salirPantallaCompleta() {
+      if (document.exitFullscreen) {
+        document.exitFullscreen();
+      } else if (document.webkitExitFullscreen) {
+        document.webkitExitFullscreen();
+      } else if (document.msExitFullscreen) {
+        document.msExitFullscreen();
+      }
     }
-  }
 
-  // Cambiar la imagen según el estado
-  function actualizarImagen() {
-    const enPantallaCompleta = document.fullscreenElement || document.webkitFullscreenElement;
-    img.src = enPantallaCompleta ? "assets/off.svg" : "assets/on.svg";
-  }
+    // Cambiar la imagen según el estado
+    function actualizarImagen() {
+      const enPantallaCompleta = document.fullscreenElement || document.webkitFullscreenElement;
+      img.src = enPantallaCompleta ? "assets/off.svg" : "assets/on.svg";
+    }
 
-  // Detectar cambio de modo fullscreen
-  document.addEventListener("fullscreenchange", actualizarImagen);
-  document.addEventListener("webkitfullscreenchange", actualizarImagen);
+    // Detectar cambio de modo fullscreen
+    document.addEventListener("fullscreenchange", actualizarImagen);
+    document.addEventListener("webkitfullscreenchange", actualizarImagen);
 
-  // Acción del botón
-  btn.addEventListener("click", toggleFullscreen);
+    // Acción del botón
+    btn.addEventListener("click", toggleFullscreen);
   </script>
-
 </body>
 
 </html>
