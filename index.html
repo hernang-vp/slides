@@ -13,23 +13,24 @@
 
 <body>
 
-<!-- NAV -->
-<div class="nav-container">
-  <button class="menu-toggle" id="btnMenu">
-    <img src="assets/menu-open.svg" id="iconMenu" alt="Menu">
-  </button>
-</div>
+  <!-- NAV -->
+  <div class="nav-container">
+    <button class="menu-toggle" id="btnMenu">
+      <img src="assets/menu-open.svg" id="iconMenu" alt="Menu">
+    </button>
+  </div>
 
-<nav class="nav-menu" id="navMenu">
-  <button id="btnFullscreen">
-    <img id="imgFullscreen" src="assets/on.svg" alt="Pantalla completa" width="40">
-  </button>
-  <span class="nav-link" onclick="irASeccion(0); toggleMenu()">A</span>
-  <span class="nav-link" onclick="irASeccion(1); toggleMenu()">B</span>
-  <span class="nav-link" onclick="irASeccion(2); toggleMenu()">C</span>
-  <span class="nav-link" onclick="irASeccion(3); toggleMenu()">D</span>
-  <span class="nav-link" onclick="irASeccion(4); toggleMenu()">E</span>
-</nav>
+  <nav class="nav-menu" id="navMenu">
+    <button id="btnFullscreen">
+      <img id="imgFullscreen" src="assets/on.svg" alt="Pantalla completa" width="40">
+    </button>
+
+    <span class="nav-link" data-index="0" onclick="irASeccion(0); toggleMenu()">A</span>
+    <span class="nav-link" data-index="1" onclick="irASeccion(1); toggleMenu()">B</span>
+    <span class="nav-link" data-index="2" onclick="irASeccion(2); toggleMenu()">C</span>
+    <span class="nav-link" data-index="3" onclick="irASeccion(3); toggleMenu()">D</span>
+    <span class="nav-link" data-index="4" onclick="irASeccion(4); toggleMenu()">E</span>
+  </nav>
 
 
 
@@ -60,8 +61,8 @@
 
   <script>
 
-// BARRA DE NAVEGACIÓN
-const btnMenu = document.getElementById('btnMenu');
+    // BARRA DE NAVEGACIÓN
+    const btnMenu = document.getElementById('btnMenu');
     const navMenu = document.getElementById('navMenu');
     const iconMenu = document.getElementById('iconMenu');
 
@@ -71,10 +72,22 @@ const btnMenu = document.getElementById('btnMenu');
       iconMenu.src = isOpen ? 'assets/menu-close.svg' : 'assets/menu-open.svg';
     }
 
-    btnMenu.addEventListener('click', toggleMenu);
+    btnMenu.addEventListener('click', (e) => {
+      e.stopPropagation(); // CAMBIO: evitar que el clic en el botón cierre la barra
+      toggleMenu();
+    });
+
+    // CAMBIO: cerrar menú si se hace clic fuera de él
+    document.addEventListener('click', (e) => {
+      const isClickInsideMenu = navMenu.contains(e.target) || btnMenu.contains(e.target);
+      if (!isClickInsideMenu && navMenu.classList.contains('open')) {
+        navMenu.classList.remove('open');
+        iconMenu.src = 'assets/menu-open.svg';
+      }
+    });
 
 
-// DESPLAZAMIENTO
+    // DESPLAZAMIENTO
     const secciones = document.querySelectorAll(".seccion");
     let index = 0;
     let bloqueado = false;
@@ -86,7 +99,17 @@ const btnMenu = document.getElementById('btnMenu');
       index = nuevoIndex;
       secciones[index].scrollIntoView({ behavior: "smooth" });
 
-      setTimeout(() => bloqueado = false, 800); // evitar scroll múltiple accidental
+      // Actualizar clase 'active' en los links
+      const links = document.querySelectorAll(".nav-link");
+      links.forEach(link => {
+        if (parseInt(link.dataset.index) === index) {
+          link.classList.add("active");
+        } else {
+          link.classList.remove("active");
+        }
+      });
+
+      setTimeout(() => bloqueado = false, 200); // evitar scroll múltiple accidental
     }
 
     // --- Teclado ---
@@ -133,7 +156,7 @@ const btnMenu = document.getElementById('btnMenu');
         irASeccion(index - 1); // scroll hacia arriba
       }
     }, { passive: true });
-    
+
 
     // PANTALLA COMPLETA
     const btn = document.getElementById("btnFullscreen");
