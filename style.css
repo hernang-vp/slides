@@ -215,19 +215,43 @@ body {
 
 
 
+/* Tablet (pantallas menores a 768px) */
 @media (max-width: 768px) {
-  .glass {
-    --margen: 15px; /* REDUCE el margen dinámico */
+  :root {
+    --margen: 15px; /* Reduzco el margen */
+  }
 
-    padding: 1rem; /* Opcional: reducir padding interno */
+  .glass {
+    padding: 1rem; /* Padding interno más chico */
   }
 
   .glass h1 {
-    font-size: 3rem; /* REDUCE tamaño del título */
-    top: -1rem; /* Ajusta la salida hacia arriba */
+    font-size: 3rem; /* Título más chico */
+    top: -1rem;
   }
 
   .glass h2 {
-    font-size: 1.5rem; /* REDUCE tamaño del subtítulo */
+    font-size: 1.5rem; /* Subtítulo más chico */
   }
 }
+
+/* Celulares (pantallas menores a 480px) */
+@media (max-width: 480px) {
+  :root {
+    --margen: 10px; /* Margen aún más chico para celulares chicos */
+  }
+
+  .glass {
+    padding: 0.8rem;
+  }
+
+  .glass h1 {
+    font-size: 2.2rem; /* Título aún más reducido */
+    top: -0.5rem; /* Ajusto también cuánto sale del cuadro */
+  }
+
+  .glass h2 {
+    font-size: 1.2rem; /* Subtítulo más reducido */
+  }
+}
+
