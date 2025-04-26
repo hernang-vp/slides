@@ -215,43 +215,90 @@ body {
 
 
 
-/* Tablet (pantallas menores a 768px) */
-@media only screen and (orientation: landscape) and (min-width: 768px) {
-  :root {
-    --margen: 15px; /* Reduzco el margen */
+/* MEDIA QUERIES PARA DISPOSITIVOS HORIZONTALES */
+/* Tablet horizontal (1024px o menos) */
+@media only screen and (max-width: 1024px) and (orientation: landscape) {
+  body {
+    font-size: 150px; /* Reducción base */
   }
-
-  .glass {
-    padding: 1rem; /* Padding interno más chico */
-  }
-
+  
   .glass h1 {
-    font-size: 3rem; /* Título más chico */
-    top: -1rem;
+    font-size: 4.5rem; /* 25% más pequeño */
+    top: -2rem; /* Ajuste de posición */
   }
-
+  
   .glass h2 {
-    font-size: 1.5rem; /* Subtítulo más chico */
+    font-size: 1.875rem; /* 25% más pequeño */
+  }
+  
+  .nav-link {
+    font-size: 1rem;
   }
 }
 
-/* Celulares (pantallas menores a 480px) */
-@media only screen and (orientation: landscape) and (min-width: 480px) {
-  :root {
-    --margen: 10px; /* Margen aún más chico para celulares chicos */
+/* Tablet pequeña horizontal (768px o menos) */
+@media only screen and (max-width: 768px) and (orientation: landscape) {
+  body {
+    font-size: 120px;
   }
-
-  .glass {
-    padding: 0.8rem;
-  }
-
+  
   .glass h1 {
-    font-size: 2.2rem; /* Título aún más reducido */
-    top: -0.5rem; /* Ajusto también cuánto sale del cuadro */
+    font-size: 3.6rem; /* 40% más pequeño que el original */
+    top: -1.5rem;
   }
-
+  
   .glass h2 {
-    font-size: 1.2rem; /* Subtítulo más reducido */
+    font-size: 1.5rem;
+  }
+  
+  .nav-menu {
+    width: 250px; /* Menú un poco más estrecho */
+  }
+}
+
+/* Smartphone horizontal (480px o menos) */
+@media only screen and (max-width: 480px) and (orientation: landscape) {
+  body {
+    font-size: 80px;
+  }
+  
+  .glass {
+    width: calc(60vw - var(--margen)); /* Más ancho para mejor legibilidad */
+    padding: 1.5rem;
+  }
+  
+  .glass h1 {
+    font-size: 2.4rem; /* 60% más pequeño que el original */
+    top: -1rem;
+  }
+  
+  .glass h2 {
+    font-size: 1.2rem;
+    margin-top: 1rem;
+  }
+  
+  .nav-menu {
+    width: 200px;
+    padding-top: 3rem;
+  }
+  
+  .nav-link {
+    font-size: 0.9rem;
+  }
+}
+
+/* Smartphone muy pequeño horizontal (360px o menos) */
+@media only screen and (max-width: 360px) and (orientation: landscape) {
+  .glass h1 {
+    font-size: 2rem;
+  }
+  
+  .glass h2 {
+    font-size: 1rem;
+  }
+  
+  .nav-menu {
+    width: 180px;
   }
 }
 
