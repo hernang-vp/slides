@@ -1,3 +1,9 @@
+:root {
+  --margen: 30px;
+  --sombra: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+  --sombra-texto: 2px 2px 8px rgba(31, 38, 135, 0.5);
+}
+
 /* PARÁMETROS COMUNES */
 * {
   margin: 0;
@@ -107,10 +113,6 @@ body {
   align-items: center;
   overflow: hidden;
   /* overflow: hidden: oculta el contenido más allá del viewport height. se puede ver cambiando el tamaño de .cuadro */
-
-  --margen: 40px;
-  --sombra: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
-  --sombra-texto: 2px 2px 8px rgba(31, 38, 135, 0.5);
 }
 
 /* SECCIÓN 1 */
@@ -207,4 +209,25 @@ body {
   height: 110vh;
   background-color: chocolate;
   opacity: 30%;
+}
+
+
+
+
+
+@media (max-width: 768px) {
+  .glass {
+    --margen: 15px; /* REDUCE el margen dinámico */
+
+    padding: 1rem; /* Opcional: reducir padding interno */
+  }
+
+  .glass h1 {
+    font-size: 3rem; /* REDUCE tamaño del título */
+    top: -1rem; /* Ajusta la salida hacia arriba */
+  }
+
+  .glass h2 {
+    font-size: 1.5rem; /* REDUCE tamaño del subtítulo */
+  }
 }
