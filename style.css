@@ -216,7 +216,7 @@ body {
 
 
 /* Tablet (pantallas menores a 768px) */
-@media (max-width: 768px) {
+@media only screen and (orientation: landscape) and (min-width: 768px) {
   :root {
     --margen: 15px; /* Reduzco el margen */
   }
@@ -236,7 +236,7 @@ body {
 }
 
 /* Celulares (pantallas menores a 480px) */
-@media (max-width: 480px) {
+@media only screen and (orientation: landscape) and (min-width: 480px) {
   :root {
     --margen: 10px; /* Margen aún más chico para celulares chicos */
   }
