@@ -13,197 +13,57 @@
 
 <body>
 
-  <!-- NAV -->
-  <div class="nav-container">
-    <button class="menu-toggle" id="btnMenu">
-      <img src="assets/menu-open.svg" id="iconMenu" alt="Menu">
-    </button>
-  </div>
+  <header>
+    <!-- NAV -->
+    <div class="nav-container">
+      <button class="menu-toggle" id="btnMenu">
+        <img src="assets/menu-open.svg" id="iconMenu" alt="Menu">
+      </button>
+    </div>
 
-  <nav class="nav-menu" id="navMenu">
-    <button id="btnFullscreen">
-      <img id="imgFullscreen" src="assets/on.svg" alt="Pantalla completa" width="40">
-    </button>
+    <nav class="nav-menu" id="navMenu">
+      <button id="btnFullscreen">
+        <img id="imgFullscreen" src="assets/full-screen-on.svg" alt="Pantalla completa" width="40">
+      </button>
 
-    <span class="nav-link" data-index="0" onclick="irASeccion(0); toggleMenu()">A</span>
-    <span class="nav-link" data-index="1" onclick="irASeccion(1); toggleMenu()">B</span>
-    <span class="nav-link" data-index="2" onclick="irASeccion(2); toggleMenu()">C</span>
-    <span class="nav-link" data-index="3" onclick="irASeccion(3); toggleMenu()">D</span>
-    <span class="nav-link" data-index="4" onclick="irASeccion(4); toggleMenu()">E</span>
-  </nav>
-
-
-
-  <div class="seccion" id="seccion-1">
-
-    <!-- CAMBIO: onclick modificado para usar irASeccion(1) -->
-    <span class="link" onclick="irASeccion(1)">A</span>
-
-    <!-- CAMBIO: onclick modificado para usar irASeccion(1) -->
-    <div class="link cuadro" onclick="irASeccion(1)">1</div>
-  </div>
-
-  <div class="seccion" id="seccion-2">
-    <span class="link" onclick="irASeccion(2)">B</span>
-  </div>
-
-  <div class="seccion" id="seccion-3">
-    <span class="link" onclick="irASeccion(3)">C</span>
-  </div>
-
-  <div class="seccion" id="seccion-4">
-    <span class="link" onclick="irASeccion(4)">D</span>
-  </div>
-
-  <div class="seccion" id="seccion-5">
-    <span class="link" onclick="irASeccion(0)">E</span>
-  </div>
-
-  <script>
-
-    // BARRA DE NAVEGACIÓN
-    const btnMenu = document.getElementById('btnMenu');
-    const navMenu = document.getElementById('navMenu');
-    const iconMenu = document.getElementById('iconMenu');
-
-    function toggleMenu() {
-      navMenu.classList.toggle('open');
-      const isOpen = navMenu.classList.contains('open');
-      iconMenu.src = isOpen ? 'assets/menu-close.svg' : 'assets/menu-open.svg';
-    }
-
-    btnMenu.addEventListener('click', (e) => {
-      e.stopPropagation(); // CAMBIO: evitar que el clic en el botón cierre la barra
-      toggleMenu();
-    });
-
-    // CAMBIO: cerrar menú si se hace clic fuera de él
-    document.addEventListener('click', (e) => {
-      const isClickInsideMenu = navMenu.contains(e.target) || btnMenu.contains(e.target);
-      if (!isClickInsideMenu && navMenu.classList.contains('open')) {
-        navMenu.classList.remove('open');
-        iconMenu.src = 'assets/menu-open.svg';
-      }
-    });
+      <span class="nav-link" data-index="0" onclick="irASeccion(0); toggleMenu()">HOME</span>
+      <span class="nav-link" data-index="1" onclick="irASeccion(1); toggleMenu()">¿Quiénes somos?</span>
+      <span class="nav-link" data-index="2" onclick="irASeccion(2); toggleMenu()">Mapa</span>
+      <span class="nav-link" data-index="3" onclick="irASeccion(3); toggleMenu()">D</span>
+      <span class="nav-link" data-index="4" onclick="irASeccion(4); toggleMenu()">E</span>
+    </nav>
+  </header>
 
 
-    // DESPLAZAMIENTO
-    const secciones = document.querySelectorAll(".seccion");
-    let index = 0;
-    let bloqueado = false;
+  <main>
+    <section class="seccion" id="seccion-1">
+      <div class="glass">
+        <h1>Asesorías Personalizadas</h1>
+        <h2>Compartiendo Destinos</h2>
+      </div>
+    </section>
 
-    function irASeccion(nuevoIndex) {
-      if (bloqueado || nuevoIndex < 0 || nuevoIndex >= secciones.length) return;
+    <section class="seccion" id="seccion-2">
+      <div class="glass derecha">
+        <h1>¿Quiénes somos?</h1>
+      </div>
+    </section>
 
-      bloqueado = true;
-      index = nuevoIndex;
-      secciones[index].scrollIntoView({ behavior: "smooth" });
+    <section class="seccion" id="seccion-3">
+      <span class="link" onclick="irASeccion(3)">Mapa de Florianópolis</span>
+    </section>
 
-      // Actualizar clase 'active' en los links
-      const links = document.querySelectorAll(".nav-link");
-      links.forEach(link => {
-        if (parseInt(link.dataset.index) === index) {
-          link.classList.add("active");
-        } else {
-          link.classList.remove("active");
-        }
-      });
+    <section class="seccion" id="seccion-4">
+      <span class="link" onclick="irASeccion(4)">D</span>
+    </section>
 
-      setTimeout(() => bloqueado = false, 200); // evitar scroll múltiple accidental
-    }
+    <section class="seccion" id="seccion-5">
+      <span class="link" onclick="irASeccion(0)">E</span>
+    </section>
 
-    // --- Teclado ---
-    window.addEventListener("keydown", function (e) {
-      if (e.code === "Space" || e.code === "ArrowDown" || e.code === "ArrowRight") {
-        e.preventDefault();
-        irASeccion(index + 1);
-      } else if (e.code === "ArrowUp" || e.code === "ArrowLeft") {
-        e.preventDefault();
-        irASeccion(index - 1);
-      }
-    });
+  </main>
 
-    // --- Swipe táctil ---
-    let startX = 0, startY = 0;
-
-    window.addEventListener("touchstart", e => {
-      startX = e.touches[0].clientX;
-      startY = e.touches[0].clientY;
-    });
-
-    window.addEventListener("touchend", e => {
-      const endX = e.changedTouches[0].clientX;
-      const endY = e.changedTouches[0].clientY;
-      const diffX = endX - startX;
-      const diffY = endY - startY;
-
-      if (Math.abs(diffY) > Math.abs(diffX)) {
-        if (diffY < -30) irASeccion(index + 1); // swipe arriba
-        else if (diffY > 30) irASeccion(index - 1); // swipe abajo
-      } else {
-        if (diffX < -30) irASeccion(index + 1); // swipe izq
-        else if (diffX > 30) irASeccion(index - 1); // swipe der
-      }
-    });
-
-    // --- Scroll con mouse ---
-    window.addEventListener("wheel", (e) => {
-      if (bloqueado) return;
-
-      if (e.deltaY > 30) {
-        irASeccion(index + 1); // scroll hacia abajo
-      } else if (e.deltaY < -30) {
-        irASeccion(index - 1); // scroll hacia arriba
-      }
-    }, { passive: true });
-
-
-    // PANTALLA COMPLETA
-    const btn = document.getElementById("btnFullscreen");
-    const img = document.getElementById("imgFullscreen");
-
-    function toggleFullscreen() {
-      if (!document.fullscreenElement && !document.webkitFullscreenElement) {
-        entrarPantallaCompleta();
-      } else {
-        salirPantallaCompleta();
-      }
-    }
-
-    function entrarPantallaCompleta() {
-      const docEl = document.documentElement;
-      if (docEl.requestFullscreen) {
-        docEl.requestFullscreen();
-      } else if (docEl.webkitRequestFullscreen) {
-        docEl.webkitRequestFullscreen();
-      } else if (docEl.msRequestFullscreen) {
-        docEl.msRequestFullscreen();
-      }
-    }
-
-    function salirPantallaCompleta() {
-      if (document.exitFullscreen) {
-        document.exitFullscreen();
-      } else if (document.webkitExitFullscreen) {
-        document.webkitExitFullscreen();
-      } else if (document.msExitFullscreen) {
-        document.msExitFullscreen();
-      }
-    }
-
-    // Cambiar la imagen según el estado
-    function actualizarImagen() {
-      const enPantallaCompleta = document.fullscreenElement || document.webkitFullscreenElement;
-      img.src = enPantallaCompleta ? "assets/off.svg" : "assets/on.svg";
-    }
-
-    // Detectar cambio de modo fullscreen
-    document.addEventListener("fullscreenchange", actualizarImagen);
-    document.addEventListener("webkitfullscreenchange", actualizarImagen);
-
-    // Acción del botón
-    btn.addEventListener("click", toggleFullscreen);
-  </script>
+  <script src="script.js"></script>
 </body>
 
 </html>
